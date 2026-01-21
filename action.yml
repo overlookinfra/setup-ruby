@@ -17,7 +17,7 @@ inputs:
       Similarly, if a version number is given, `gem update --system <version>` is run to update to that version of RubyGems, as long as that version is newer than the one provided by default.
   setup-script:
     description: |
-      Setup code to be executed after Ruby is installed, but before Bundler is installed or `bundle install` is run.
+      Setup code to be executed after Ruby and Bundler are installed, but before `bundle install` is run.
       If you want to execute a script on disk, just pass the filename, like `'./setup.sh'` or `'ruby setup.rb'`
       If you intend to use this to install a custom Bundler version or the like, make sure to specify `bundler: none`.
   bundler:
