@@ -14,6 +14,7 @@ const inputDefaults = {
   'rubygems': 'default',
   'bundler': 'Gemfile.lock',
   'bundler-cache': 'false',
+  'setup-script': '',
   'working-directory': '.',
   'cache-version': bundler.DEFAULT_CACHE_VERSION,
   'self-hosted': 'false',
@@ -89,7 +90,12 @@ export async function setupRuby(options = {}) {
   if (inputs['afterSetupPathHook'] instanceof Function) {
     await inputs['afterSetupPathHook']({ platform, rubyPrefix, engine, version })
   }
-
+  
+  if (inputs['setup-script'] !== '') {
+    await common.measure('Running setup script', async () =>
+      await exec.exec(inputs['setup-script'])
+  }
+  
   const [gemfile, lockFile] = bundler.detectGemfiles()
   let bundlerVersion = 'unknown'
 
