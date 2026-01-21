@@ -90,18 +90,18 @@ export async function setupRuby(options = {}) {
   if (inputs['afterSetupPathHook'] instanceof Function) {
     await inputs['afterSetupPathHook']({ platform, rubyPrefix, engine, version })
   }
-  
-  if (inputs['setup-script'] !== '') {
-    await common.measure('Running setup script', async () =>
-      await exec.exec(inputs['setup-script'])
-  }
-  
+
   const [gemfile, lockFile] = bundler.detectGemfiles()
   let bundlerVersion = 'unknown'
 
   if (inputs['bundler'] !== 'none') {
     bundlerVersion = await common.measure('Installing Bundler', async () =>
       bundler.installBundler(inputs['bundler'], rubygemsInputSet, lockFile, platform, rubyPrefix, engine, version))
+  }
+
+  if (inputs['setup-script'] !== '') {
+    await common.measure('Running setup script', async () =>
+      await exec.exec(inputs['setup-script'])
   }
 
   if (inputs['bundler-cache'] === 'true') {
